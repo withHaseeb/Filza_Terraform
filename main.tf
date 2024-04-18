@@ -154,9 +154,11 @@ resource "aws_route_table_association" "rt_nat_association_vpc_3" {
 }
 
 resource "aws_nat_gateway" "nt_gw_vpc_1" {
-  tags          = merge(var.tags, {})
   subnet_id     = aws_subnet.sub_pub_vpc_1.id
   allocation_id = aws_eip.eip_vpc_1.id
+  tags = {
+    Name = "Filza_Nat_Gateway"
+  }
 }
 
 resource "aws_eip" "eip_vpc_1" {
@@ -225,7 +227,14 @@ resource "aws_instance" "ec2_vpc_1_sub_pub" {
   tags = {
     Name = "ec2_vpc_1_sub_pub"
   }
+
+  user_data = file("${path.module}/user_data.sh")
 }
+
+
+
+
+
 
 resource "aws_route_table_association" "rt_igw_association_vpc_1" {
   subnet_id      = aws_subnet.sub_pub_vpc_1.id
@@ -283,23 +292,28 @@ resource "aws_security_group" "sg_vpc_1" {
   tags   = merge(var.tags, {})
 
   egress {
-    to_port   = 0
-    protocol  = "-1"
-    from_port = 0
-    cidr_blocks = [
-      "0.0.0.0/0",
-    ]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    to_port   = 65535
-    protocol  = "tcp"
-    from_port = 0
-    cidr_blocks = [
-      "0.0.0.0/0",
-    ]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
 
 resource "aws_ec2_transit_gateway" "tgw_sg" {
 
@@ -337,4 +351,5 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_sg_attachment2" {
     aws_subnet.sub_prv_vpc_2.id,
   ]
 }
+
 
