@@ -40,25 +40,11 @@ variable "instance_type" {
   type = string
 }
 
-variable "instances_per_azs" {
-  type = list(number)
-}
 
 variable "key_pair_name" {
   type = string
 }
 
-variable "subnets_azs" {
-  type = list(string)
-}
-
-variable "subnets_cidr" {
-  type = list(string)
-}
-
-variable "subnets_visibility" {
-  type = list(string)
-}
 
 variable "tags" {
   description = "Default tags to apply to all resources."
@@ -69,9 +55,6 @@ variable "tags" {
   }
 }
 
-variable "vpc_cidr" {
-  type = string
-}
 
 
 
