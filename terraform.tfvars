@@ -2,7 +2,7 @@
 
 ami_image          = "ami-080e1f13689e07408"
 aws_region         = "us-east-1"
-bucket_name        = "filza-infra-tf1-state"
+bucket_name        = "filza-infra-tf10-state"
 create_instances   = true
 deploy_igw_enabled = true
 deploy_nat_enabled = true
