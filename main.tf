@@ -213,7 +213,7 @@ resource "aws_instance" "ec2_vpc_3_sub_prv" {
   }
 }
 
-resource "aws_instance" "ec2_vpc_1_sub_pub" {
+resource "aws_instance" "web-server-1" {
   subnet_id                   = aws_subnet.sub_pub_vpc_1.id
   key_name                    = var.key_pair_name
   instance_type               = "t2.micro"
@@ -225,10 +225,29 @@ resource "aws_instance" "ec2_vpc_1_sub_pub" {
   ]
 
   tags = {
-    Name = "ec2_vpc_1_sub_pub"
+    Name = "web-server-1"
   }
 
-  user_data = file("${path.module}/user_data.sh")
+  user_data = file("${path.module}/user_data1.sh")
+}
+
+resource "aws_instance" "web-server-2" {
+  subnet_id                   = aws_subnet.sub_pub_vpc_1.id
+  key_name                    = var.key_pair_name
+  instance_type               = "t2.micro"
+  associate_public_ip_address = true
+  ami                         = var.ami_image
+
+  security_groups = [
+    aws_security_group.sg_vpc_1.id,
+  ]
+
+  tags = {
+    Name = "web-server-2"
+  }
+
+  user_data = file("${path.module}/user_data2.sh")
+
 }
 
 
@@ -351,5 +370,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_sg_attachment2" {
     aws_subnet.sub_prv_vpc_2.id,
   ]
 }
+
+
 
 

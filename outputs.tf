@@ -24,10 +24,16 @@ output "nat_gateway_name" {
 output "instance_details" {
   value = [
     {
-      instance_name = aws_instance.ec2_vpc_1_sub_pub.tags["Name"]
-      public_ip     = aws_instance.ec2_vpc_1_sub_pub.public_ip
-      private_ip    = aws_instance.ec2_vpc_1_sub_pub.private_ip
+      instance_name = aws_instance.web-server-1.tags["Name"]
+      public_ip     = aws_instance.web-server-1.public_ip
+      private_ip    = aws_instance.web-server-1.private_ip
     },
+    {
+      instance_name = aws_instance.web-server-2.tags["Name"]
+      public_ip     = aws_instance.web-server-2.public_ip
+      private_ip    = aws_instance.web-server-2.private_ip
+    },
+
     {
       instance_name = aws_instance.ec2_vpc_1_sub_prv.tags["Name"]
       public_ip     = null
